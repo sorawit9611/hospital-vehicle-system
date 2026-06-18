@@ -1,20 +1,27 @@
 "use client";
 import { useState } from "react";
-import { Avatar, Layout, Menu, Typography, theme } from "antd";
+import { Button, Layout, Menu, Typography, theme } from "antd";
 import {
     DashboardOutlined, CarOutlined, FileSearchOutlined,
     BarChartOutlined, UserOutlined,
-    MenuFoldOutlined, MenuUnfoldOutlined,
+    MenuFoldOutlined, MenuUnfoldOutlined, LogoutOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const { Sider, Header, Content } = Layout;
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const [collapsed, setCollapsed] = useState(false);
     const pathname = usePathname();
+    const router = useRouter();
     const { token } = theme.useToken();
+
+    const logout = async () => {
+        await fetch("/api/auth/logout", { method: "POST" });
+        router.replace("/login");
+        router.refresh();
+    };
 
     const items = [
         { key: "/admin", icon: <DashboardOutlined />, label: <Link href="/admin">Dashboard</Link> },
@@ -69,7 +76,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         ระบบบันทึกการใช้งานยานพาหนะ — โรงพยาบาลสามร้อยยอด
                     </Typography.Title>
                     <span style={{ marginLeft: "auto" }}>
-                        {/*  <Avatar icon={<UserOutlined />} />*/}
+                        <Button icon={<LogoutOutlined />} onClick={logout}>
+                            ออกจากระบบ
+                        </Button>
                     </span>
                 </Header>
                 <Content style={{ padding: 24 }}>
