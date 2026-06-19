@@ -14,12 +14,16 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "รหัสผ่านไม่ถูกต้อง" }, { status: 401 });
         }
 
+        // ตั้ง secure ตามโปรโตคอลจริง — ถ้าบังคับ secure บน HTTP เบราว์เซอร์จะไม่เก็บ cookie
+        const proto = req.headers.get("x-forwarded-proto") ?? req.nextUrl.protocol.replace(":", "");
+        const isHttps = proto === "https";
+
         const token = await createSessionToken();
         (await cookies()).set(SESSION_COOKIE, token, {
             httpOnly: true,
             sameSite: "lax",
             path: "/",
-            secure: process.env.NODE_ENV === "production",
+            secure: isHttps,
             maxAge: SESSION_MAX_AGE,
         });
 
