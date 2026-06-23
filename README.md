@@ -62,7 +62,7 @@ npm run dev
 | ตัวแปร | จำเป็น | คำอธิบาย |
 |--------|:---:|----------|
 | `DATABASE_URL` | ✅ | connection string ของ PostgreSQL เช่น `postgresql://user:pass@host:5432/hospital_vehicles` |
-| `NEXT_PUBLIC_BASE_URL` | ✅ | URL ของแอปที่ใช้สร้าง QR Code ⚠️ **production ต้องเป็น IP/โดเมนจริง** ที่มือถือเข้าถึงได้ เช่น `http://192.168.101.240:3000` |
+| `NEXT_PUBLIC_BASE_URL` | ✅ | URL ของแอปที่ใช้สร้าง QR Code ⚠️ **production ต้องเป็น IP/โดเมนจริง** ที่มือถือเข้าถึงได้ เช่น `http://192.168.xxx.xxx:3000` |
 | `ADMIN_PASSWORD` | ✅ | รหัสผ่านสำหรับเข้าหน้า `/admin` |
 | `AUTH_SECRET` | ✅ | คีย์ลับสำหรับเซ็น session — สุ่มด้วย `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
 
