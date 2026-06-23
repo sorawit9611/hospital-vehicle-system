@@ -17,7 +17,7 @@ export default function AdminDashboard() {
     useEffect(() => {
         Promise.all([
             fetch("/api/logs?limit=20").then(r => r.json()),
-            fetch("/api/vehicles?activeOnly=false").then(r => r.json()),
+            fetch("/api/vehicles?activeOnly=true").then(r => r.json()),
             fetch("/api/drivers").then(r => r.json()),
         ]).then(([l, v, d]) => {
             setLogs(l);
