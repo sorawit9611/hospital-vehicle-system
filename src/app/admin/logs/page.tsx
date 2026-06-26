@@ -122,10 +122,11 @@ export default function LogsPage() {
             title: "", width: 50,
             render: (_: unknown, r: LogRow) => (
                 <Popconfirm title="ลบบันทึกนี้?"
-                    onConfirm={async () => {
-                        await fetch(`/api/logs/${r.log.id}`, { method: "DELETE" });
-                        message.success("ลบแล้ว"); load();
-                    }}
+                    onConfirm={
+                        async () => {
+                            await fetch(`/api/logs/${r.log.id}`, { method: "DELETE" });
+                            message.success("ลบแล้ว"); load();
+                        }}
                     okText="ลบ"
                     cancelText="ยกเลิก">
                     <Button size="small" danger icon={<DeleteOutlined />} />

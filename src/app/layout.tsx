@@ -4,6 +4,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "ระบบบันทึกการใช้งานยานพาหนะ | โรงพยาบาลสามร้อยยอด",
+  icons: { icon: "/icon_sry.png" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

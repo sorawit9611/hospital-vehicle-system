@@ -19,7 +19,7 @@ export default function VehiclesPage() {
     const [modalOpen, setModalOpen] = useState(false);
     const [qrModalOpen, setQrModalOpen] = useState(false);
     const [editing, setEditing] = useState<Vehicle | null>(null);
-    const [selected, setSelected] = useState<Vehicle | null>(null);
+    const [selected, setSelected] = useState<VehicleRow | null>(null);
     const [filterType, setFilterType] = useState("all");
     const [form] = Form.useForm();
 
@@ -139,7 +139,7 @@ export default function VehiclesPage() {
                     <Tooltip title="QR Code">
                         <Button size="small" icon={<QrcodeOutlined />}
                             onClick={() => {
-                                setSelected(r.vehicle);
+                                setSelected(r);
                                 setQrModalOpen(true);
                             }} />
                     </Tooltip>
@@ -187,7 +187,7 @@ export default function VehiclesPage() {
             {/* Add/Edit Modal */}
             <Modal title={<><CarOutlined />  {editing ? "แก้ไขยานพาหนะ" : "เพิ่มยานพาหนะ"}</>}
                 open={modalOpen} onOk={handleSave} onCancel={() => setModalOpen(false)}
-                okText={editing ? "บันทึก" : "เพิ่ม"} cancelText="ยกเลิก" width={560}>
+                okText={editing ? "บันทึก" : "เพิ่ม"} cancelText="ยกเลิก" width={600}>
                 <Form form={form} layout="vertical" style={{ marginTop: 16 }}>
                     <Row gutter={16}>
                         <Col span={12}>
@@ -245,23 +245,25 @@ export default function VehiclesPage() {
             </Modal>
 
             {/* QR Modal */}
-            <Modal title={`บัตรประจำรถ — ${selected?.plateNumber}`}
+            <Modal title={`บัตรประจำรถ — ${selected?.vehicle.plateNumber}`} width={480}
                 open={qrModalOpen} onCancel={() => setQrModalOpen(false)} centered
                 footer={[
                     <Button key="print" type="primary" icon={<PrinterOutlined />} onClick={() => window.print()}>
-                        พิมพ์บัตร
+                        พิมพ์บัตร (หน้า-หลัง)
                     </Button>,
                     <Button key="close" onClick={() => setQrModalOpen(false)}>
                         ปิด
                     </Button>,
                 ]}>
                 <div style={{ display: "flex", justifyContent: "center", padding: "16px 0" }}>
-                    {selected && <div className="print-area">
-                        <VehicleCard vehicle={selected} />
+                    {selected && <div className="print-area"
+                        style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
+                        <VehicleCard vehicle={{ ...selected.vehicle, responsibleDriver: selected.responsibleDriver }} side="front" />
+                        <VehicleCard vehicle={{ ...selected.vehicle, responsibleDriver: selected.responsibleDriver }} side="back" />
                     </div>}
                 </div>
                 <Typography.Paragraph type="secondary" style={{ textAlign: "center", fontSize: 12 }}>
-                    สแกน QR Code เพื่อเข้าสู่หน้าบันทึกการใช้งานของรถคันนี้
+                    ด้านหน้าใช้สแกน QR เพื่อบันทึกการใช้งาน · ด้านหลังเป็นวิธีใช้และข้อควรปฏิบัติ
                 </Typography.Paragraph>
             </Modal>
         </div>

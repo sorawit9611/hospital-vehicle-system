@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Row, Col, Card, Statistic, Table, Tag, Typography, Space, Badge, Spin, Alert, Button } from "antd";
-import { CarOutlined, ClockCircleOutlined, WarningOutlined, ArrowRightOutlined, UserOutlined, TruckOutlined, LinkOutlined } from "@ant-design/icons";
+import { CarOutlined, WarningOutlined, ArrowRightOutlined, UserOutlined, TruckOutlined, LinkOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { VEHICLE_TYPE_COLORS, LOG_STATUS_LABELS } from "@/lib/constants";
 import { formatThaiDate } from "@/lib/utils";
@@ -16,7 +16,7 @@ export default function AdminDashboard() {
 
     useEffect(() => {
         Promise.all([
-            fetch("/api/logs?limit=20").then(r => r.json()),
+            fetch("/api/logs?limit=30").then(r => r.json()),
             fetch("/api/vehicles?activeOnly=true").then(r => r.json()),
             fetch("/api/drivers").then(r => r.json()),
         ]).then(([l, v, d]) => {
@@ -124,7 +124,7 @@ export default function AdminDashboard() {
                             prefix={<UserOutlined />} suffix="คน" />
                     </Card>
                 </Col>
-                <Col xs={12} sm={6}>
+                {/*<Col xs={12} sm={6}>
                     <Card>
                         <Statistic title="กำลังปฏิบัติงาน" value={outCount}
                             prefix={<ClockCircleOutlined />} suffix="คัน"
@@ -133,15 +133,15 @@ export default function AdminDashboard() {
                                     { color: outCount > 0 ? "#fa8c16" : "#52c41a" }
                             }} />
                     </Card>
-                </Col>
+                </Col>*/}
             </Row>
 
             {outCount > 0 && (
-                <Alert title={`มียานพาหนะ ${outCount} คันกำลังปฏิบัติงานอยู่ในขณะนี้`} type="warning"
+                <Alert title={`มียานพาหนะ ${outCount} คัน กำลังปฏิบัติงานอยู่ในขณะนี้`} type="warning"
                     showIcon icon={<WarningOutlined />} style={{ marginBottom: 16 }} />
             )}
 
-            <Card title="บันทึกล่าสุด"
+            <Card title="บันทึกล่าสุด - 30 รายการ"
                 extra={<Link href="/admin/logs">
                     <Button type="link" icon={<ArrowRightOutlined />}>
                         ดูทั้งหมด
